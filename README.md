@@ -38,7 +38,7 @@ Currently provided are:
 
 - [draco_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/rolling/draco_point_cloud_transport) - A library using Google Draco to compress the pointclouds.
 
-- [zlib_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/rolling/zlib_point_cloud_transport) - A libraory using zlib to compress the pointclouds.
+- [zlib_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/rolling/zlib_point_cloud_transport) - A library using zlib to compress the pointclouds.
 
 - [zstd_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/master/zstd_point_cloud_transport) - A library using ZSTD to compress the pointclouds.
 
