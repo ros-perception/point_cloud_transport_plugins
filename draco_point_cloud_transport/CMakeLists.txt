@@ -26,7 +26,7 @@ set(dependencies
 )
 
 
-include_directories(include ${DRACO_INCLUDE_DIR})
+include_directories(include)
 
 add_library(${PROJECT_NAME}
   SHARED
@@ -36,11 +36,6 @@ add_library(${PROJECT_NAME}
   src/manifest.cpp
 )
 
-<<<<<<< HEAD
-target_link_libraries(${PROJECT_NAME} ${DRACO_LIBRARIES})
-
-ament_target_dependencies(${PROJECT_NAME} ${dependencies})
-=======
 target_link_libraries(${PROJECT_NAME} PRIVATE
   ${dependencies}
 )
@@ -67,7 +62,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
   "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
   ${DRACO_INCLUDE_DIR}
 )
->>>>>>> 108d043 (Fix linking to draco if DRACO_LIBRARIES is not defined (#66))
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
