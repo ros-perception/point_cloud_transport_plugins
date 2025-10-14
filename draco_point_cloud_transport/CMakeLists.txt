@@ -16,13 +16,13 @@ find_package(std_msgs REQUIRED)
 find_package(Draco REQUIRED)
 
 set(dependencies
-  pluginlib
-  point_cloud_interfaces
-  point_cloud_transport
-  rclcpp
-  rcpputils
-  sensor_msgs
-  std_msgs
+  pluginlib::pluginlib
+  ${point_cloud_interfaces_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
+  rcpputils::rcpputils
+  ${sensor_msgs_TARGETS}
+  ${std_msgs_TARGETS}
 )
 
 
