@@ -36,9 +36,38 @@ add_library(${PROJECT_NAME}
   src/manifest.cpp
 )
 
+<<<<<<< HEAD
 target_link_libraries(${PROJECT_NAME} ${DRACO_LIBRARIES})
 
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
+=======
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  ${dependencies}
+)
+
+# draco 1.5.3 dropped the DRACO_LIBRARIES variable in favor of
+# draco::draco imported target, but debian introduced DRACO_LIBRARIES
+# back, but that is not present in other distributions. For maximum
+# compatibility, we link DRACO_LIBRARIES if defined, otherwise draco::draco
+# See:
+# * https://github.com/google/draco/commit/7109fbee87c6d932cdc0ac7394bc5d485db26d44
+# * https://sources.debian.org/patches/draco/1.5.6+dfsg-3/0004-Set-DRACO_LIBRARIES-for-backwards-compatibility.patch/
+if(DEFINED DRACO_LIBRARIES)
+  target_link_libraries(${PROJECT_NAME} PRIVATE
+    ${DRACO_LIBRARIES}
+  )
+else()
+  target_link_libraries(${PROJECT_NAME} PRIVATE
+    draco::draco
+  )
+endif()
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
+  ${DRACO_INCLUDE_DIR}
+)
+>>>>>>> 108d043 (Fix linking to draco if DRACO_LIBRARIES is not defined (#66))
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
