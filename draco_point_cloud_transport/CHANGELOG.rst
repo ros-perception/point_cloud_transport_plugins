@@ -2,6 +2,11 @@
 Changelog for package draco_point_cloud_transport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+4.0.2 (2025-10-15)
+------------------
+* Fix linking to draco if DRACO_LIBRARIES is not defined (backport `#66 <https://github.com/ros-perception/point_cloud_transport_plugins/issues/66>`_) (`#67 <https://github.com/ros-perception/point_cloud_transport_plugins/issues/67>`_)
+* Contributors: mergify[bot]
+
 4.0.1 (2024-09-03)
 ------------------
 * Change Linking to DRACO_LIBRARIES as it was changes in draco (backport `#57 <https://github.com/ros-perception/point_cloud_transport_plugins/issues/57>`_) (`#58 <https://github.com/ros-perception/point_cloud_transport_plugins/issues/58>`_)
