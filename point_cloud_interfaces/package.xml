@@ -1,6 +1,6 @@
 <package format="3">
   <name>point_cloud_interfaces</name>
-  <version>4.0.1</version>
+  <version>4.0.2</version>
   <description>
     msg definitions for use with point_cloud_transport plugins.
   </description>
