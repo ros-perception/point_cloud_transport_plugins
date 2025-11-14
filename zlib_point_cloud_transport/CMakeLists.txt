@@ -29,9 +29,18 @@ add_library(${PROJECT_NAME}
   src/manifest.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} ZLIB::ZLIB)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  pluginlib::pluginlib
+  ${point_cloud_interfaces_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
+  ZLIB::ZLIB
+)
 
-ament_target_dependencies(${PROJECT_NAME} ${dependencies})
+target_include_directories(${PROJECT_NAME} PRIVATE
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
+)
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib

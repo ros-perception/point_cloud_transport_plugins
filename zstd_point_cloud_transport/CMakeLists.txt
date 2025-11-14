@@ -26,9 +26,13 @@ add_library(${PROJECT_NAME}
   src/manifest.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} zstd)
-
-ament_target_dependencies(${PROJECT_NAME} ${dependencies})
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  pluginlib::pluginlib
+  ${point_cloud_interfaces_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
+  zstd
+)
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
