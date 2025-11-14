@@ -1,14 +1,18 @@
+# TODO (YourNameHere): This is not a working CMake Project!
+# Some assembly required for your plugin. (-:
+
 cmake_minimum_required(VERSION 3.10.2)
 
 set(CMAKE_CXX_STANDARD 17)
 
-project(zstd_point_cloud_transport)
+project(template_point_cloud_transport)
 
 find_package(ament_cmake REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(point_cloud_interfaces REQUIRED)
 find_package(point_cloud_transport REQUIRED)
 find_package(rclcpp REQUIRED)
+# TODO (YourNameHere): You might need more dependencies
 
 set(dependencies
   pluginlib
@@ -17,28 +21,24 @@ set(dependencies
   rclcpp
 )
 
-include_directories(include)
+target_include_directories(${PROJECT_NAME} PRIVATE
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
 
 add_library(${PROJECT_NAME}
   SHARED
-  src/zstd_publisher.cpp
-  src/zstd_subscriber.cpp
+  # TODO (YourNameHere): You might need more source files
   src/manifest.cpp
+  src/template_publisher.cpp
+  src/template_subscriber.cpp
 )
 
-<<<<<<< HEAD
-target_link_libraries(${PROJECT_NAME} zstd)
-=======
 target_link_libraries(${PROJECT_NAME} PRIVATE
   pluginlib::pluginlib
   ${point_cloud_interfaces_TARGETS}
   point_cloud_transport::point_cloud_transport
   rclcpp::rclcpp
-  zstd
 )
->>>>>>> e33a5e9 (Correctly export dependencies for downstream packages (#70))
-
-ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
@@ -51,7 +51,7 @@ install(
   DESTINATION include/${PROJECT_NAME}
 )
 
-pluginlib_export_plugin_description_file(point_cloud_transport zstd_plugins.xml)
+pluginlib_export_plugin_description_file(point_cloud_transport template_plugins.xml)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
