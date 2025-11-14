@@ -15,10 +15,10 @@ find_package(rclcpp REQUIRED)
 # TODO (YourNameHere): You might need more dependencies
 
 set(dependencies
-  pluginlib::pluginlib
-  ${point_cloud_interfaces_TARGETS}
-  point_cloud_transport::point_cloud_transport
-  rclcpp::rclcpp
+  pluginlib
+  point_cloud_interfaces
+  point_cloud_transport
+  rclcpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -34,7 +34,10 @@ add_library(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-  ${dependencies}
+  pluginlib::pluginlib
+  ${point_cloud_interfaces_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
 )
 
 install(TARGETS ${PROJECT_NAME}

@@ -12,10 +12,10 @@ find_package(rclcpp REQUIRED)
 find_package(ZLIB REQUIRED)
 
 set(dependencies
-  pluginlib::pluginlib
-  ${point_cloud_interfaces_TARGETS}
-  point_cloud_transport::point_cloud_transport
-  rclcpp::rclcpp
+  pluginlib
+  point_cloud_interfaces
+  point_cloud_transport
+  rclcpp
 )
 
 add_library(${PROJECT_NAME}
@@ -27,9 +27,13 @@ add_library(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+  pluginlib::pluginlib
+  ${point_cloud_interfaces_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
   ZLIB::ZLIB
-  ${dependencies}
 )
+
 target_include_directories(${PROJECT_NAME} PRIVATE
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"

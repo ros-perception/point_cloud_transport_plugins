@@ -11,10 +11,10 @@ find_package(point_cloud_transport REQUIRED)
 find_package(rclcpp REQUIRED)
 
 set(dependencies
-  pluginlib::pluginlib
-  ${point_cloud_interfaces_TARGETS}
-  point_cloud_transport::point_cloud_transport
-  rclcpp::rclcpp
+  pluginlib
+  point_cloud_interfaces
+  point_cloud_transport
+  rclcpp
 )
 
 add_library(${PROJECT_NAME}
@@ -25,8 +25,11 @@ add_library(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+  pluginlib::pluginlib
+  ${point_cloud_interfaces_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
   zstd
-  ${dependencies}
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
