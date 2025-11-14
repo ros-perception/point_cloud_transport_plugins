@@ -34,8 +34,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   zstd
 )
 
-ament_target_dependencies(${PROJECT_NAME} ${dependencies})
-
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
