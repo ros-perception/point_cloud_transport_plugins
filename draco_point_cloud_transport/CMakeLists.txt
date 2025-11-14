@@ -16,13 +16,13 @@ find_package(std_msgs REQUIRED)
 find_package(Draco REQUIRED)
 
 set(dependencies
-  pluginlib::pluginlib
-  ${point_cloud_interfaces_TARGETS}
-  point_cloud_transport::point_cloud_transport
-  rclcpp::rclcpp
-  rcpputils::rcpputils
-  ${sensor_msgs_TARGETS}
-  ${std_msgs_TARGETS}
+  pluginlib
+  point_cloud_interfaces
+  point_cloud_transport
+  rclcpp
+  rcpputils
+  sensor_msgs
+  std_msgs
 )
 
 include_directories(include)
@@ -36,7 +36,13 @@ add_library(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-  ${dependencies}
+  pluginlib::pluginlib
+  ${point_cloud_interfaces_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
+  rcpputils::rcpputils
+  ${sensor_msgs_TARGETS}
+  ${std_msgs_TARGETS}
 )
 
 # draco 1.5.3 dropped the DRACO_LIBRARIES variable in favor of
