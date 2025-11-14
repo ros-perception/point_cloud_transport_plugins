@@ -31,7 +31,16 @@ add_library(${PROJECT_NAME}
   src/template_subscriber.cpp
 )
 
+<<<<<<< HEAD
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
+=======
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  pluginlib::pluginlib
+  ${point_cloud_interfaces_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
+)
+>>>>>>> e33a5e9 (Correctly export dependencies for downstream packages (#70))
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib

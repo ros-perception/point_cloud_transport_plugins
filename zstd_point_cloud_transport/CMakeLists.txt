@@ -26,7 +26,17 @@ add_library(${PROJECT_NAME}
   src/manifest.cpp
 )
 
+<<<<<<< HEAD
 target_link_libraries(${PROJECT_NAME} zstd)
+=======
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  pluginlib::pluginlib
+  ${point_cloud_interfaces_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
+  zstd
+)
+>>>>>>> e33a5e9 (Correctly export dependencies for downstream packages (#70))
 
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
