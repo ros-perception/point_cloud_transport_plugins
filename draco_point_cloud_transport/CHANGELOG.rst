@@ -2,6 +2,11 @@
 Changelog for package draco_point_cloud_transport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+5.0.3 (2025-11-17)
+------------------
+* Correctly export dependencies for downstream packages (`#70 <https://github.com/ros-perception/point_cloud_transport_plugins/issues/70>`_)
+* Contributors: Albers Franz
+
 5.0.2 (2025-10-15)
 ------------------
 * Fix linking to draco if DRACO_LIBRARIES is not defined (`#66 <https://github.com/ros-perception/point_cloud_transport_plugins/issues/66>`_)
