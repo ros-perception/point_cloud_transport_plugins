@@ -1,7 +1,7 @@
 # TODO (YourNameHere): This is not a working CMake Project!
 # Some assembly required for your plugin. (-:
 
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.20)
 
 set(CMAKE_CXX_STANDARD 17)
 
