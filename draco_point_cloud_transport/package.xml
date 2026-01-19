@@ -1,6 +1,6 @@
 <package format="3">
   <name>draco_point_cloud_transport</name>
-  <version>5.0.3</version>
+  <version>5.0.4</version>
   <description>
     draco_point_cloud_transport provides a plugin to point_cloud_transport for sending point clouds
     encoded with KD tree compression.

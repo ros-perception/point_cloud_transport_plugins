@@ -1,6 +1,6 @@
 <package format="3">
   <name>point_cloud_transport_plugins</name>
-  <version>5.0.3</version>
+  <version>5.0.4</version>
   <description>Metapackage with common point_cloud_transport plugins</description>
   <author>Jakub Paplham</author>
   <maintainer email="peckama2@fel.cvut.cz">Martin Pecka</maintainer>
