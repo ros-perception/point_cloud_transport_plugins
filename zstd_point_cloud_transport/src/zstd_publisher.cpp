@@ -89,11 +89,6 @@ std::string ZstdPublisher::getDataType() const
   return "point_cloud_interfaces/msg/CompressedPointCloud2";
 }
 
-std::string ZstdPublisher::getTransportName() const
-{
-  return "zstd";
-}
-
 ZstdPublisher::TypedEncodeResult ZstdPublisher::encodeTyped(
   const sensor_msgs::msg::PointCloud2 & raw) const
 {

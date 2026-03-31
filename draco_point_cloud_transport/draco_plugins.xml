@@ -1,5 +1,7 @@
 <library path="draco_point_cloud_transport">
-    <class 
+    <transport_name>draco</transport_name>
+    <message_type>sensor_msgs/msg/PointCloud2</message_type>
+    <class
         name="point_cloud_transport/draco_pub"
         type="draco_point_cloud_transport::DracoPublisher"
         base_class_type="point_cloud_transport::PublisherPlugin">
@@ -8,7 +10,7 @@
         </description>
     </class>
 
-    <class 
+    <class
         name="point_cloud_transport/draco_sub"
         type="draco_point_cloud_transport::DracoSubscriber"
         base_class_type="point_cloud_transport::SubscriberPlugin">

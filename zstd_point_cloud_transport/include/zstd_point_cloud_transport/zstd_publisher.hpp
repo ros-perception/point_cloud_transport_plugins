@@ -55,8 +55,6 @@ class ZstdPublisher
 public:
   ZstdPublisher();
 
-  std::string getTransportName() const override;
-
   void declareParameters(const std::string & base_topic) override;
 
   std::string getDataType() const override;

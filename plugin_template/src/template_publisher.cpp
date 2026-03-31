@@ -41,13 +41,6 @@ void TemplatePublisher::declareParameters(const std::string & base_topic)
   // parameters to control your compression algorithm speed and output quality.
 }
 
-std::string TemplatePublisher::getTransportName() const
-{
-  // This should match the name of your transport's prefix.
-  // e.g. for template_point_cloud_transport, the prefix is template
-  return "template";
-}
-
 TemplatePublisher::TypedEncodeResult TemplatePublisher::encodeTyped(
   const sensor_msgs::msg::PointCloud2 & raw) const
 {
@@ -56,9 +49,9 @@ TemplatePublisher::TypedEncodeResult TemplatePublisher::encodeTyped(
   // Add your compression code here!
   // turtle.compress(msg, result);
 
-  // Although not required, it is often convenient to implement your compression 
-  // algo in a separate file and call it here. This keeps your code 
-  // clean and easy to read.  
+  // Although not required, it is often convenient to implement your compression
+  // algo in a separate file and call it here. This keeps your code
+  // clean and easy to read.
 
   return compressed;
 }

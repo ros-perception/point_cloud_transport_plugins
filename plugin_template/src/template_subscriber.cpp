@@ -41,13 +41,6 @@ void TemplateSubscriber::declareParameters()
   // parameters to control your compression algorithm speed and output quality.
 }
 
-std::string TemplateSubscriber::getTransportName() const
-{
-  // This should match the name of your transport's prefix.
-  // e.g. for template_point_cloud_transport, the prefix is template
-  return "template";
-}
-
 TemplateSubscriber::DecodeResult TemplateSubscriber::decodeTyped(
   const point_cloud_interfaces::msg::CustomMessage & msg) const
 {
@@ -56,9 +49,9 @@ TemplateSubscriber::DecodeResult TemplateSubscriber::decodeTyped(
   // Add your decompression code here!
   // turtle.decompress(msg, result);
 
-  // Although not required, it is often convenient to implement your decompression 
-  // algo in a separate file and call it here. This keeps your code 
-  // clean and easy to read.  
+  // Although not required, it is often convenient to implement your decompression
+  // algo in a separate file and call it here. This keeps your code
+  // clean and easy to read.
 
   return result;
 }

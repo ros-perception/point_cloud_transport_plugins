@@ -474,11 +474,6 @@ tl::expected<std::unique_ptr<draco::PointCloud>, std::string> DracoPublisher::co
   return std::move(pc);  // std::move() has to be here for GCC 7
 }
 
-std::string DracoPublisher::getTransportName() const
-{
-  return "draco";
-}
-
 DracoPublisher::TypedEncodeResult DracoPublisher::encodeTyped(
   const sensor_msgs::msg::PointCloud2 & raw) const
 {

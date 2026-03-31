@@ -51,8 +51,6 @@ class ZlibPublisher
     point_cloud_interfaces::msg::CompressedPointCloud2>
 {
 public:
-  std::string getTransportName() const override;
-
   void declareParameters(const std::string & base_topic) override;
 
   std::string getDataType() const override

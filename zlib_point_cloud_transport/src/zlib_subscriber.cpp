@@ -46,11 +46,6 @@ void ZlibSubscriber::declareParameters()
 {
 }
 
-std::string ZlibSubscriber::getTransportName() const
-{
-  return "zlib";
-}
-
 ZlibSubscriber::DecodeResult ZlibSubscriber::decodeTyped(
   const point_cloud_interfaces::msg::CompressedPointCloud2 & msg) const
 {

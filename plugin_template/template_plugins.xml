@@ -1,4 +1,6 @@
 <library path="template_point_cloud_transport">
+    <transport_name>template</transport_name>
+    <message_type>sensor_msgs/msg/PointCloud2</message_type>
     <class
         name="point_cloud_transport/template_pub"
         type="template_point_cloud_transport::TemplatePublisher"

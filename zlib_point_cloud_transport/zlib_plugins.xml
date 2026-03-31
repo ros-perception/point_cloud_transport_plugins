@@ -1,4 +1,6 @@
 <library path="zlib_point_cloud_transport">
+    <transport_name>zlib</transport_name>
+    <message_type>sensor_msgs/msg/PointCloud2</message_type>
     <class
         name="point_cloud_transport/zlib_pub"
         type="zlib_point_cloud_transport::ZlibPublisher"

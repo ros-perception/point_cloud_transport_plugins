@@ -79,11 +79,6 @@ void ZlibPublisher::declareParameters(const std::string & base_topic)
   setParamCallback(param_change_callback);
 }
 
-std::string ZlibPublisher::getTransportName() const
-{
-  return "zlib";
-}
-
 ZlibPublisher::TypedEncodeResult ZlibPublisher::encodeTyped(
   const sensor_msgs::msg::PointCloud2 & raw) const
 {
