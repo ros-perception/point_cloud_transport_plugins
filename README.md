@@ -4,7 +4,8 @@
 
 ROS2 Distro | Build Status | Package build |
 :---------: | :----: | :----------: |
-Rolling |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rdev__point_cloud_transport_plugins__ubuntu_noble_amd64)](https://build.ros2.org/job/Rdev__point_cloud_transport_plugins__ubuntu_noble_amd64/) |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uN64__point_cloud_transport_plugins__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Rbin_uN64__point_cloud_transport_plugins__ubuntu_noble_amd64__binary/) |
+Rolling |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rdev__point_cloud_transport_plugins__ubuntu_resolute_amd64)](https://build.ros2.org/job/Rdev__point_cloud_transport_plugins__ubuntu_resolute_amd64/) |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uR64__point_cloud_transport_plugins__ubuntu_resolute_amd64__binary)](https://build.ros2.org/job/Rbin_uR64__point_cloud_transport_plugins__ubuntu_resolute_amd64__binary/) |
+Lyrical |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Ldev__point_cloud_transport_plugins__ubuntu_resolute_amd64)](https://build.ros2.org/job/Ldev__point_cloud_transport_plugins__ubuntu_resolute_amd64/) |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Lbin_uR64__point_cloud_transport_plugins__ubuntu_resolute_amd64__binary)](https://build.ros2.org/job/Lbin_uR64__point_cloud_transport_plugins__ubuntu_resolute_amd64__binary/) |
 Jazzy |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Jdev__point_cloud_transport_plugins__ubuntu_noble_amd64)](https://build.ros2.org/job/Jdev__point_cloud_transport_plugins__ubuntu_noble_amd64/) |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Jbin_uN64__point_cloud_transport_plugins__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Jbin_uN64__point_cloud_transport_plugins__ubuntu_noble_amd64__binary/) |
 Humble |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hdev__point_cloud_transport_plugins__ubuntu_jammy_amd64)](https://build.ros2.org/job/Hdev__point_cloud_transport_plugins__ubuntu_jammy_amd64/) |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hbin_uJ64__point_cloud_transport_plugins__ubuntu_jammy_amd64__binary)](https://build.ros2.org/job/Hbin_uJ64__point_cloud_transport_plugins__ubuntu_jammy_amd64__binary/) |
 
@@ -12,7 +13,8 @@ Humble |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hdev__poi
 
 ROS2 Distro | Package build |
 :---------: | :----------: |
-Rolling | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uN64__draco_point_cloud_transport__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Rbin_uN64__draco_point_cloud_transport__ubuntu_noble_amd64__binary/) |
+Rolling | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uR64__draco_point_cloud_transport__ubuntu_resolute_amd64__binary)](https://build.ros2.org/job/Rbin_uR64__draco_point_cloud_transport__ubuntu_resolute_amd64__binary/) |
+Lyrical | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Lbin_uR64__draco_point_cloud_transport__ubuntu_resolute_amd64__binary)](https://build.ros2.org/job/Lbin_uR64__draco_point_cloud_transport__ubuntu_resolute_amd64__binary/) |
 Jazzy | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Jbin_uN64__draco_point_cloud_transport__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Jbin_uN64__draco_point_cloud_transport__ubuntu_noble_amd64__binary/) |
 Humble | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hbin_uJ64__draco_point_cloud_transport__ubuntu_jammy_amd64__binary)](https://build.ros2.org/job/Hbin_uJ64__draco_point_cloud_transport__ubuntu_jammy_amd64__binary/) |
 
@@ -20,7 +22,8 @@ Humble | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hbin_uJ64_
 
 ROS2 Distro | Package build |
 :---------: | :----------: |
-Rolling | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uN64__zlib_point_cloud_transport__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Rbin_uN64__zlib_point_cloud_transport__ubuntu_noble_amd64__binary/) |
+Rolling | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uR64__zlib_point_cloud_transport__ubuntu_resolute_amd64__binary)](https://build.ros2.org/job/Rbin_uR64__zlib_point_cloud_transport__ubuntu_resolute_amd64__binary/) |
+Lyrical | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Lbin_uR64__zlib_point_cloud_transport__ubuntu_resolute_amd64__binary)](https://build.ros2.org/job/Lbin_uR64__zlib_point_cloud_transport__ubuntu_resolute_amd64__binary/) |
 Jazzy | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Jbin_uN64__zlib_point_cloud_transport__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Jbin_uN64__zlib_point_cloud_transport__ubuntu_noble_amd64__binary/) |
 Humble | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hbin_uJ64__zlib_point_cloud_transport__ubuntu_jammy_amd64__binary)](https://build.ros2.org/job/Hbin_uJ64__zlib_point_cloud_transport__ubuntu_jammy_amd64__binary/) |
 
@@ -28,7 +31,8 @@ Humble | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hbin_uJ64_
 
 ROS2 Distro | Package build |
 :---------: | :----------: |
-Rolling | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uN64__zstd_point_cloud_transport__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Rbin_uN64__zstd_point_cloud_transport__ubuntu_noble_amd64__binary/) |
+Rolling | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uR64__zstd_point_cloud_transport__ubuntu_resolute_amd64__binary)](https://build.ros2.org/job/Rbin_uR64__zstd_point_cloud_transport__ubuntu_resolute_amd64__binary/) |
+Lyrical | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Lbin_uR64__zstd_point_cloud_transport__ubuntu_resolute_amd64__binary)](https://build.ros2.org/job/Lbin_uR64__zstd_point_cloud_transport__ubuntu_resolute_amd64__binary/) |
 Jazzy | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Jbin_uN64__zstd_point_cloud_transport__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Jbin_uN64__zstd_point_cloud_transport__ubuntu_noble_amd64__binary/) |
 Humble | [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hbin_uJ64__zstd_point_cloud_transport__ubuntu_jammy_amd64__binary)](https://build.ros2.org/job/Hbin_uJ64__zstd_point_cloud_transport__ubuntu_jammy_amd64__binary/) |
 
