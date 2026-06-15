@@ -2,6 +2,9 @@
 Changelog for package zstd_point_cloud_transport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+7.0.0 (2026-06-15)
+------------------
+
 6.1.1 (2026-06-15)
 ------------------
 * Explicitly find zstd and remove undefined function  (`#83 <https://github.com/ros-perception/point_cloud_transport_plugins/issues/83>`_)
