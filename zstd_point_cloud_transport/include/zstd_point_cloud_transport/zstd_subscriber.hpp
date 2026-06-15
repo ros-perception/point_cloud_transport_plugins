@@ -51,8 +51,6 @@ class ZstdSubscriber
 public:
   ZstdSubscriber();
 
-  std::string getTransportName() const override;
-
   void declareParameters() override;
 
   std::string getDataType() const override;
