@@ -2,6 +2,9 @@
 Changelog for package draco_point_cloud_transport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+6.1.1 (2026-06-15)
+------------------
+
 6.1.0 (2026-04-08)
 ------------------
 * Update API (`#79 <https://github.com/ros-perception/point_cloud_transport_plugins/issues/79>`_)
