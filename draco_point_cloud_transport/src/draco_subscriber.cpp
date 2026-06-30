@@ -97,6 +97,14 @@ tl::expected<bool, std::string> convertDracoToPC2(
   // number of all attributes of point cloud
   int32_t number_of_attributes = pc.num_attributes();
 
+  // The loop below indexes compressed_PC2.fields[att_id] for every attribute,
+  // so the decoded cloud must not advertise more attributes than the message
+  // has fields, otherwise we would read out of bounds.
+  if (static_cast<size_t>(number_of_attributes) > compressed_PC2.fields.size()) {
+    return tl::make_unexpected(
+      "Decoded Draco point cloud has more attributes than the message has fields.");
+  }
+
   // number of points in pointcloud
   draco::PointIndex::ValueType number_of_points = pc.num_points();
 
@@ -148,12 +156,13 @@ DracoSubscriber::DecodeResult DracoSubscriber::decodeTyped(
   }
 
   draco::DecoderBuffer decode_buffer;
-  std::vector<unsigned char> vec_data = compressed.compressed_data;
 
   // Sets the buffer's internal data. Note that no copy of the input data is
   // made so the data owner needs to keep the data valid and unchanged for
-  // runtime of the decoder.
-  decode_buffer.Init(reinterpret_cast<const char *>(&vec_data[0]), compressed_data_size);
+  // runtime of the decoder. `compressed` outlives this call, so point directly
+  // at its buffer instead of copying it.
+  decode_buffer.Init(
+    reinterpret_cast<const char *>(compressed.compressed_data.data()), compressed_data_size);
 
   // create decoder object
   draco::Decoder decoder;

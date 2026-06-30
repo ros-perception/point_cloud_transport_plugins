@@ -98,7 +98,7 @@ std::list<std::shared_ptr<DataBlock>> Comp::Process(
   std::list<std::shared_ptr<DataBlock>> out_data_list;
   // Prepare output buffer memory.
   uint8_t out_buffer[MAX_CHUNK_SIZE];
-  zs_.next_in = reinterpret_cast<uint8_t *>(const_cast<uint8_t *>(buffer));
+  zs_.next_in = const_cast<uint8_t *>(buffer);
   zs_.avail_in = static_cast<uInt>(size);
   do {
     // Reset output buffer position and size.
@@ -128,6 +128,11 @@ Decomp::Decomp()
 
 Decomp::~Decomp() {inflateEnd(&zs_);}
 
+bool Decomp::IsSucc() const
+{
+  return init_ok_;
+}
+
 std::list<std::shared_ptr<DataBlock>> Decomp::Process(
   const std::shared_ptr<DataBlock> & compressed_data)
 {
@@ -146,11 +151,11 @@ std::list<std::shared_ptr<DataBlock>> Decomp::Process(
     switch (ret) {
       case Z_NEED_DICT:
         // Incoming data is invalid.
-        return std::move(out_data_list);
+        return out_data_list;
       case Z_DATA_ERROR:
       case Z_MEM_ERROR:
         // Critical error.
-        return std::move(out_data_list);
+        return out_data_list;
     }
     // Outcome size.
     std::size_t out_size = MAX_CHUNK_SIZE - zs_.avail_out;
@@ -159,7 +164,7 @@ std::list<std::shared_ptr<DataBlock>> Decomp::Process(
     memcpy(out_data->ptr, out_buffer, out_size);
     out_data_list.push_back(std::move(out_data));
   } while (zs_.avail_out == 0);
-  return std::move(out_data_list);
+  return out_data_list;
 }
 
 }  // namespace zlib
