@@ -42,11 +42,6 @@
 
 namespace zstd_point_cloud_transport
 {
-ZstdSubscriber::ZstdSubscriber()
-{
-  this->zstd_context_ = ZSTD_createDCtx();
-}
-
 void ZstdSubscriber::declareParameters()
 {
 }
@@ -59,19 +54,35 @@ std::string ZstdSubscriber::getDataType() const
 ZstdSubscriber::DecodeResult ZstdSubscriber::decodeTyped(
   const point_cloud_interfaces::msg::CompressedPointCloud2 & msg) const
 {
+  if (msg.compressed_data.empty()) {
+    return tl::make_unexpected("Received compressed Zstd message with zero length.");
+  }
+
+  const unsigned long long est_decomp_size = ZSTD_getFrameContentSize(
+    msg.compressed_data.data(), msg.compressed_data.size());
+
+  if (est_decomp_size == ZSTD_CONTENTSIZE_ERROR) {
+    return tl::make_unexpected("Zstd: input is not a valid compressed frame.");
+  }
+  if (est_decomp_size == ZSTD_CONTENTSIZE_UNKNOWN) {
+    return tl::make_unexpected(
+      "Zstd: decompressed size is unknown; streaming frames are not supported.");
+  }
+
   auto result = std::make_shared<sensor_msgs::msg::PointCloud2>();
-
-  auto const est_decomp_size =
-    ZSTD_getFrameContentSize(&msg.compressed_data[0], msg.compressed_data.size());
-
   result->data.resize(est_decomp_size);
 
-  size_t const decomp_size = ZSTD_decompressDCtx(
-    this->zstd_context_,
-    static_cast<void *>(&result->data[0]),
+  const size_t decomp_size = ZSTD_decompressDCtx(
+    this->zstd_context_.get(),
+    result->data.data(),
     est_decomp_size,
-    &msg.compressed_data[0],
+    msg.compressed_data.data(),
     msg.compressed_data.size());
+
+  if (ZSTD_isError(decomp_size)) {
+    return tl::make_unexpected(
+      std::string("Zstd decompression failed: ") + ZSTD_getErrorName(decomp_size));
+  }
 
   result->data.resize(decomp_size);
 

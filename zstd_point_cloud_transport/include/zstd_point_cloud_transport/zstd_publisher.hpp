@@ -53,8 +53,6 @@ class ZstdPublisher
     point_cloud_interfaces::msg::CompressedPointCloud2>
 {
 public:
-  ZstdPublisher();
-
   void declareParameters(const std::string & base_topic) override;
 
   std::string getDataType() const override;
@@ -62,13 +60,18 @@ public:
   TypedEncodeResult encodeTyped(const sensor_msgs::msg::PointCloud2 & raw) const override;
 
 private:
+  // Custom deleter so the ZSTD compression context is released via RAII.
+  struct CCtxDeleter
+  {
+    void operator()(ZSTD_CCtx * ctx) const noexcept {ZSTD_freeCCtx(ctx);}
+  };
+
   int encode_level_{7};
 
-  // When compressing many times,
-  // it is recommended to allocate a context just once,
-  // and re-use it for each successive compression operation.
-  // This will make workload friendlier for system's memory.
-  ZSTD_CCtx * zstd_context_{nullptr};
+  // When compressing many times, it is recommended to allocate a context just
+  // once and re-use it for each successive compression operation. The
+  // unique_ptr guarantees the context is freed when the publisher is destroyed.
+  std::unique_ptr<ZSTD_CCtx, CCtxDeleter> zstd_context_{ZSTD_createCCtx()};
 };
 }  // namespace zstd_point_cloud_transport
 
