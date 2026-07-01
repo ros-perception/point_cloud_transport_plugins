@@ -98,7 +98,7 @@ typedef ::cras::impl::GenericCloudConstIterator<> GenericCloudConstIter;
  * \param[in] cloud The cloud to examine.
  * \return The number of points.
  */
-inline size_t numPoints(const ::cras::Cloud & cloud)
+[[nodiscard]] constexpr size_t numPoints(const ::cras::Cloud & cloud)
 {
   return static_cast<size_t>(cloud.height) * static_cast<size_t>(cloud.width);
 }
@@ -109,7 +109,7 @@ inline size_t numPoints(const ::cras::Cloud & cloud)
  * \param[in] fieldName Name of the field.
  * \return Whether the field is there or not.
  */
-bool hasField(const ::cras::Cloud & cloud, const ::std::string & fieldName);
+[[nodiscard]] bool hasField(const ::cras::Cloud & cloud, const ::std::string & fieldName);
 
 /**
  * \brief Return the sensor_msgs::msg::PointField with the given name.
@@ -118,7 +118,8 @@ bool hasField(const ::cras::Cloud & cloud, const ::std::string & fieldName);
  * \return Reference to the field.
  * \throws std::runtime_error if the field doesn't exist.
  */
-::sensor_msgs::msg::PointField & getField(::cras::Cloud & cloud, const ::std::string & fieldName);
+[[nodiscard]] ::sensor_msgs::msg::PointField & getField(
+  ::cras::Cloud & cloud, const ::std::string & fieldName);
 
 /**
  * \brief Return the sensor_msgs::msg::PointField with the given name.
@@ -127,7 +128,7 @@ bool hasField(const ::cras::Cloud & cloud, const ::std::string & fieldName);
  * \return Reference to the field.
  * \throws std::runtime_error if the field doesn't exist.
  */
-const ::sensor_msgs::msg::PointField & getField(
+[[nodiscard]] const ::sensor_msgs::msg::PointField & getField(
   const ::cras::Cloud & cloud,
   const ::std::string & fieldName);
 
@@ -137,7 +138,7 @@ const ::sensor_msgs::msg::PointField & getField(
  * \return Size of the datatype in bytes.
  * \throws std::runtime_error if wrong datatype is passed.
  */
-size_t sizeOfPointField(int datatype);
+[[nodiscard]] size_t sizeOfPointField(int datatype);
 
 /**
  * \brief Return the size (in bytes) of the data represented by the sensor_msgs::msg::PointField.
@@ -145,7 +146,7 @@ size_t sizeOfPointField(int datatype);
  * \return Size of the data.
  * \throws std::runtime_error if wrong datatype is passed.
  */
-size_t sizeOfPointField(const ::sensor_msgs::msg::PointField & field);
+[[nodiscard]] size_t sizeOfPointField(const ::sensor_msgs::msg::PointField & field);
 
 /**
  * \brief Copy data belonging to the given field from `in` cloud to `out` cloud.

@@ -39,6 +39,7 @@
 #ifndef DRACO_POINT_CLOUD_TRANSPORT__CLOUD__IMPL__CLOUD_HPP_
 #define DRACO_POINT_CLOUD_TRANSPORT__CLOUD__IMPL__CLOUD_HPP_
 
+#include <format>
 #include <string>
 
 #include <sensor_msgs/msg/point_field.hpp>
@@ -118,8 +119,9 @@ public:
   {
     if (sizeof(D) != this->getFieldSize()) {
       throw ::std::runtime_error(
-              "Cannot convert field of size " + ::std::to_string(this->getFieldSize()) +
-              " to a type of size " + ::std::to_string(sizeof(D)));
+              ::std::format(
+                "Cannot convert field of size {} to a type of size {}",
+                this->getFieldSize(), sizeof(D)));
     }
     return reinterpret_cast<const D *>(this->rawData());
   }
@@ -157,8 +159,9 @@ public:
   {
     if (sizeof(D) != this->getFieldSize()) {
       throw ::std::runtime_error(
-              "Cannot convert field of size " + ::std::to_string(this->getFieldSize()) +
-              " to a type of size " + ::std::to_string(sizeof(D)));
+              ::std::format(
+                "Cannot convert field of size {} to a type of size {}",
+                this->getFieldSize(), sizeof(D)));
     }
     return reinterpret_cast<D *>(this->rawData());
   }
