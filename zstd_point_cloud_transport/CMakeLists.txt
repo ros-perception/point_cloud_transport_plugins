@@ -74,6 +74,15 @@ if(BUILD_TESTING)
     ${sensor_msgs_TARGETS}
     zstd::zstd
   )
+
+  # Integration test: drives the full point_cloud_transport pub/sub path. The
+  # zstd plugin is loaded at runtime via pluginlib, so it is NOT linked here.
+  ament_add_gtest(test_zstd_transport test/test_zstd_transport.cpp)
+  target_link_libraries(test_zstd_transport
+    point_cloud_transport::point_cloud_transport
+    rclcpp::rclcpp
+    ${sensor_msgs_TARGETS}
+  )
 endif()
 
 ament_export_include_directories(include)

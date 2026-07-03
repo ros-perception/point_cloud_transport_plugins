@@ -83,6 +83,15 @@ if(BUILD_TESTING)
     ${sensor_msgs_TARGETS}
     ZLIB::ZLIB
   )
+
+  # Integration test: drives the full point_cloud_transport pub/sub path. The
+  # zlib plugin is loaded at runtime via pluginlib, so it is NOT linked here.
+  ament_add_gtest(test_zlib_transport test/test_zlib_transport.cpp)
+  target_link_libraries(test_zlib_transport
+    point_cloud_transport::point_cloud_transport
+    rclcpp::rclcpp
+    ${sensor_msgs_TARGETS}
+  )
 endif()
 
 ament_export_include_directories(include)
