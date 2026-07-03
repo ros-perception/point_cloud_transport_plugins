@@ -55,6 +55,17 @@ pluginlib_export_plugin_description_file(point_cloud_transport zlib_plugins.xml)
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
+
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_zlib_roundtrip
+    test/test_zlib_roundtrip.cpp
+    src/zlib_cpp.cpp
+  )
+  target_include_directories(test_zlib_roundtrip PRIVATE src)
+  target_link_libraries(test_zlib_roundtrip
+    ament_cmake_ros_core::ament_ros_cxx_standard
+    ZLIB::ZLIB
+  )
 endif()
 
 ament_export_include_directories(include)

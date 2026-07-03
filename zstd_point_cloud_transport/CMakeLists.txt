@@ -56,6 +56,24 @@ pluginlib_export_plugin_description_file(point_cloud_transport zstd_plugins.xml)
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
+
+  find_package(ament_cmake_gtest REQUIRED)
+  find_package(sensor_msgs REQUIRED)
+  ament_add_gtest(test_zstd_roundtrip
+    test/test_zstd_roundtrip.cpp
+    src/zstd_publisher.cpp
+    src/zstd_subscriber.cpp
+  )
+  target_include_directories(test_zstd_roundtrip PRIVATE include)
+  target_link_libraries(test_zstd_roundtrip
+    ament_cmake_ros_core::ament_ros_cxx_standard
+    pluginlib::pluginlib
+    ${point_cloud_interfaces_TARGETS}
+    point_cloud_transport::point_cloud_transport
+    rclcpp::rclcpp
+    ${sensor_msgs_TARGETS}
+    zstd::zstd
+  )
 endif()
 
 ament_export_include_directories(include)
