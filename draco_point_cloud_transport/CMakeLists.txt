@@ -84,6 +84,29 @@ pluginlib_export_plugin_description_file(point_cloud_transport draco_plugins.xml
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
+
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_draco_roundtrip
+    test/test_draco_roundtrip.cpp
+    src/cloud.cpp
+    src/draco_publisher.cpp
+    src/draco_subscriber.cpp
+  )
+  target_include_directories(test_draco_roundtrip PRIVATE include ${DRACO_INCLUDE_DIR})
+  target_link_libraries(test_draco_roundtrip
+    pluginlib::pluginlib
+    ${point_cloud_interfaces_TARGETS}
+    point_cloud_transport::point_cloud_transport
+    rclcpp::rclcpp
+    rcpputils::rcpputils
+    ${sensor_msgs_TARGETS}
+    ${std_msgs_TARGETS}
+  )
+  if(DEFINED DRACO_LIBRARIES)
+    target_link_libraries(test_draco_roundtrip ${DRACO_LIBRARIES})
+  else()
+    target_link_libraries(test_draco_roundtrip draco::draco)
+  endif()
 endif()
 
 ament_export_include_directories(include)
