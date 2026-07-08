@@ -31,6 +31,7 @@
 
 #include <zstd.h>
 
+#include <cstdint>
 #include <list>
 #include <memory>
 #include <string>
@@ -58,7 +59,7 @@ ZstdSubscriber::DecodeResult ZstdSubscriber::decodeTyped(
     return tl::make_unexpected("Received compressed Zstd message with zero length.");
   }
 
-  const unsigned long long est_decomp_size = ZSTD_getFrameContentSize(
+  const uint64_t est_decomp_size = ZSTD_getFrameContentSize(
     msg.compressed_data.data(), msg.compressed_data.size());
 
   if (est_decomp_size == ZSTD_CONTENTSIZE_ERROR) {
