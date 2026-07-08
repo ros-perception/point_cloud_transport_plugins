@@ -31,7 +31,7 @@
 
 // HACK: we need to access PointCloud2IteratorBase::data_char_ which is private
 #include <algorithm>
-#include <format>
+#include <format>  // NOLINT(build/include_order)
 #include <string>
 #include <sstream>
 #include <cstring>
