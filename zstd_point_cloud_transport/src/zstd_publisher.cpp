@@ -41,11 +41,6 @@
 namespace zstd_point_cloud_transport
 {
 
-ZstdPublisher::ZstdPublisher()
-{
-  this->zstd_context_ = ZSTD_createCCtx();
-}
-
 void ZstdPublisher::declareParameters(const std::string & base_topic)
 {
   rcl_interfaces::msg::ParameterDescriptor encode_level_paramDescriptor;
@@ -92,19 +87,23 @@ std::string ZstdPublisher::getDataType() const
 ZstdPublisher::TypedEncodeResult ZstdPublisher::encodeTyped(
   const sensor_msgs::msg::PointCloud2 & raw) const
 {
-  size_t est_compress_size = ZSTD_compressBound(raw.data.size());
+  const size_t est_compress_size = ZSTD_compressBound(raw.data.size());
 
   point_cloud_interfaces::msg::CompressedPointCloud2 compressed;
   compressed.compressed_data.resize(est_compress_size);
 
-  auto compress_size =
-    ZSTD_compressCCtx(
-    this->zstd_context_,
-    static_cast<void *>(&compressed.compressed_data[0]),
+  const size_t compress_size = ZSTD_compressCCtx(
+    this->zstd_context_.get(),
+    compressed.compressed_data.data(),
     est_compress_size,
-    &raw.data[0],
+    raw.data.data(),
     raw.data.size(),
     this->encode_level_);
+
+  if (ZSTD_isError(compress_size)) {
+    return tl::make_unexpected(
+      std::string("Zstd compression failed: ") + ZSTD_getErrorName(compress_size));
+  }
 
   compressed.compressed_data.resize(compress_size);
 
