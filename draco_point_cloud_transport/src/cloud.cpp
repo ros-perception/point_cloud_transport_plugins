@@ -29,16 +29,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-// HACK: we need to access PointCloud2IteratorBase::data_char_ which is private
 #include <algorithm>
 #include <string>
 #include <sstream>
 #include <cstring>
-
-#define private protected
-#include <sensor_msgs/point_cloud2_iterator.hpp>
-#undef private
-
 
 #include <draco_point_cloud_transport/cloud.hpp>
 
@@ -54,24 +48,22 @@ bool hasField(const ::cras::Cloud & cloud, const std::string & fieldName)
 
 sensor_msgs::msg::PointField & getField(::cras::Cloud & cloud, const std::string & fieldName)
 {
-  for (auto & field : cloud.fields) {
-    if (field.name == fieldName) {
-      return field;
-    }
+  const auto it = std::ranges::find(cloud.fields, fieldName, &sensor_msgs::msg::PointField::name);
+  if (it == cloud.fields.end()) {
+    throw std::runtime_error(std::string("Field ") + fieldName + " does not exist.");
   }
-  throw std::runtime_error(std::string("Field ") + fieldName + " does not exist.");
+  return *it;
 }
 
 const sensor_msgs::msg::PointField & getField(
   const ::cras::Cloud & cloud,
   const std::string & fieldName)
 {
-  for (const auto & field : cloud.fields) {
-    if (field.name == fieldName) {
-      return field;
-    }
+  const auto it = std::ranges::find(cloud.fields, fieldName, &sensor_msgs::msg::PointField::name);
+  if (it == cloud.fields.end()) {
+    throw std::runtime_error(std::string("Field ") + fieldName + " does not exist.");
   }
-  throw std::runtime_error(std::string("Field ") + fieldName + " does not exist.");
+  return *it;
 }
 
 size_t sizeOfPointField(const ::sensor_msgs::msg::PointField & field)
@@ -132,7 +124,10 @@ GenericCloudIteratorBase<T, TT, U, C, V>::GenericCloudIteratorBase(
 template<typename T, typename TT, typename U, typename C, template<typename> class V>
 U * GenericCloudIteratorBase<T, TT, U, C, V>::rawData() const
 {
-  return this->data_char_;
+  // The current element's address is exactly the raw byte position the base
+  // iterator tracks internally (data_ is kept in sync with its private
+  // data_char_), so we avoid reaching into that private member.
+  return reinterpret_cast<U *>(&this->operator*());
 }
 
 template<typename T>
