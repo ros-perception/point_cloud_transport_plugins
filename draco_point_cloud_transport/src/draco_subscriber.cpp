@@ -34,6 +34,7 @@
 #include <draco/compression/decode.h>
 #include <draco_point_cloud_transport/conversion_utilities.h>
 
+#include <format>
 #include <memory>
 #include <string>
 #include <vector>
@@ -66,19 +67,19 @@ void DracoSubscriber::declareParameters()
       auto result = rcl_interfaces::msg::SetParametersResult();
       result.successful = true;
       for (auto parameter : parameters) {
-        if (parameter.get_name().find("SkipDequantizationPOSITION") != std::string::npos) {
+        if (parameter.get_name().ends_with("SkipDequantizationPOSITION")) {
           config_.SkipDequantizationPOSITION = parameter.as_bool();
           return result;
-        } else if (parameter.get_name().find("SkipDequantizationNORMAL") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("SkipDequantizationNORMAL")) {
           config_.SkipDequantizationNORMAL = parameter.as_bool();
           return result;
-        } else if (parameter.get_name().find("SkipDequantizationCOLOR") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("SkipDequantizationCOLOR")) {
           config_.SkipDequantizationCOLOR = parameter.as_bool();
           return result;
-        } else if (parameter.get_name().find("SkipDequantizationTEX_COORD") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("SkipDequantizationTEX_COORD")) {
           config_.SkipDequantizationTEX_COORD = parameter.as_bool();
           return result;
-        } else if (parameter.get_name().find("SkipDequantizationGENERIC") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("SkipDequantizationGENERIC")) {
           config_.SkipDequantizationGENERIC = parameter.as_bool();
           return result;
         }
@@ -178,8 +179,9 @@ DracoSubscriber::DecodeResult DracoSubscriber::decodeTyped(
   const auto res = decoder.DecodePointCloudFromBuffer(&decode_buffer);
   if (!res.ok()) {
     return tl::make_unexpected(
-      "Draco decoder returned code " + std::to_string(
-        res.status().code()) + ": " + res.status().error_msg() + ".");
+      std::format(
+        "Draco decoder returned code {}: {}.",
+        static_cast<int>(res.status().code()), res.status().error_msg()));
   }
 
   const std::unique_ptr<draco::PointCloud> & decoded_pc = res.value();

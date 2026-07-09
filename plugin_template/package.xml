@@ -12,6 +12,7 @@
   <url type="repository">https://github.com/rolling/point_cloud_transport_plugins</url>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros_core</buildtool_depend>
 
   <build_depend>pluginlib</build_depend>
 

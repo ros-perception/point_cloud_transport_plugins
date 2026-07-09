@@ -65,7 +65,7 @@ void ZstdPublisher::declareParameters(const std::string & base_topic)
       auto result = rcl_interfaces::msg::SetParametersResult();
       result.successful = true;
       for (auto parameter : parameters) {
-        if (parameter.get_name().find("zstd_encode_level") != std::string::npos) {
+        if (parameter.get_name().ends_with("zstd_encode_level")) {
           this->encode_level_ = static_cast<int>(parameter.as_int());
           if (!(this->encode_level_ >= -1 && this->encode_level_ <= 9)) {
             RCLCPP_ERROR_STREAM(
