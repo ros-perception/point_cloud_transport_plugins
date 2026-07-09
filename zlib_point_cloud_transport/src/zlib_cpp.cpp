@@ -41,29 +41,23 @@ const int MAX_CHUNK_SIZE = 1024;
 
 const int WINDOW_BITS = 15;
 
-/// Allocate memory to DataBlock and assign to a shared_ptr object.
+/// Allocate a DataBlock owning `size` bytes in a single allocation.
 std::shared_ptr<DataBlock> AllocateData(std::size_t size)
 {
-  std::shared_ptr<DataBlock> data(new DataBlock, [](DataBlock * p) {
-      delete[] p->ptr;
-      delete p;
-    });
-  data->ptr = new uint8_t[size];
-  data->size = size;
-  return data;
+  return std::make_shared<DataBlock>(size);
 }
 
 std::shared_ptr<DataBlock> ExpandDataList(const std::list<std::shared_ptr<DataBlock>> & data_list)
 {
   std::size_t total_size = 0;
   for (const std::shared_ptr<DataBlock> & this_data : data_list) {
-    total_size += this_data->size;
+    total_size += this_data->size();
   }
   std::shared_ptr<DataBlock> out_data = AllocateData(total_size);
-  uint8_t * this_ptr = out_data->ptr;
+  uint8_t * this_ptr = out_data->ptr();
   for (const std::shared_ptr<DataBlock> & this_data : data_list) {
-    memcpy(this_ptr, this_data->ptr, this_data->size);
-    this_ptr += this_data->size;
+    memcpy(this_ptr, this_data->ptr(), this_data->size());
+    this_ptr += this_data->size();
   }
   return out_data;
 }
@@ -110,7 +104,7 @@ std::list<std::shared_ptr<DataBlock>> Comp::Process(
     std::size_t out_size = MAX_CHUNK_SIZE - zs_.avail_out;
     std::shared_ptr<DataBlock> out_data = AllocateData(out_size);
     // Copy and add to output data list.
-    memcpy(out_data->ptr, out_buffer, out_size);
+    memcpy(out_data->ptr(), out_buffer, out_size);
     out_data_list.push_back(std::move(out_data));
   } while (zs_.avail_out == 0);
   // Done.
@@ -134,8 +128,8 @@ std::list<std::shared_ptr<DataBlock>> Decomp::Process(
   std::list<std::shared_ptr<DataBlock>> out_data_list;
   uint8_t out_buffer[MAX_CHUNK_SIZE];
   // Incoming buffer.
-  zs_.avail_in = static_cast<uInt>(compressed_data->size);
-  zs_.next_in = compressed_data->ptr;
+  zs_.avail_in = static_cast<uInt>(compressed_data->size());
+  zs_.next_in = compressed_data->ptr();
   int ret;
   do {
     // Prepare outcoming buffer and size.
@@ -156,7 +150,7 @@ std::list<std::shared_ptr<DataBlock>> Decomp::Process(
     std::size_t out_size = MAX_CHUNK_SIZE - zs_.avail_out;
     // Allocate outcome buffer.
     std::shared_ptr<DataBlock> out_data = AllocateData(out_size);
-    memcpy(out_data->ptr, out_buffer, out_size);
+    memcpy(out_data->ptr(), out_buffer, out_size);
     out_data_list.push_back(std::move(out_data));
   } while (zs_.avail_out == 0);
   return std::move(out_data_list);

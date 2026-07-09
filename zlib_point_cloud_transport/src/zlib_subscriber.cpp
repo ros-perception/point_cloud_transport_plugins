@@ -54,15 +54,15 @@ ZlibSubscriber::DecodeResult ZlibSubscriber::decodeTyped(
   zlib::Decomp decomp;
 
   std::shared_ptr<zlib::DataBlock> data = zlib::AllocateData(msg.compressed_data.size());
-  memcpy(data->ptr, &msg.compressed_data[0], msg.compressed_data.size());
+  memcpy(data->ptr(), &msg.compressed_data[0], msg.compressed_data.size());
 
   std::list<std::shared_ptr<zlib::DataBlock>> out_data_list;
   out_data_list = decomp.Process(data);
 
   std::shared_ptr<zlib::DataBlock> data2 = zlib::ExpandDataList(out_data_list);
 
-  result->data.resize(data2->size);
-  memcpy(&result->data[0], data2->ptr, data2->size);
+  result->data.resize(data2->size());
+  memcpy(&result->data[0], data2->ptr(), data2->size());
 
   result->width = msg.width;
   result->height = msg.height;
