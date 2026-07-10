@@ -49,12 +49,19 @@ void ZlibSubscriber::declareParameters()
 ZlibSubscriber::DecodeResult ZlibSubscriber::decodeTyped(
   const point_cloud_interfaces::msg::CompressedPointCloud2 & msg) const
 {
+  if (msg.compressed_data.empty()) {
+    return tl::make_unexpected("Received compressed Zlib message with zero length.");
+  }
+
   auto result = std::make_shared<sensor_msgs::msg::PointCloud2>();
 
   zlib::Decomp decomp;
+  if (!decomp.IsSucc()) {
+    return tl::make_unexpected("Zlib decompressor failed to initialize.");
+  }
 
   std::shared_ptr<zlib::DataBlock> data = zlib::AllocateData(msg.compressed_data.size());
-  memcpy(data->ptr, &msg.compressed_data[0], msg.compressed_data.size());
+  memcpy(data->ptr, msg.compressed_data.data(), msg.compressed_data.size());
 
   std::list<std::shared_ptr<zlib::DataBlock>> out_data_list;
   out_data_list = decomp.Process(data);
@@ -62,7 +69,7 @@ ZlibSubscriber::DecodeResult ZlibSubscriber::decodeTyped(
   std::shared_ptr<zlib::DataBlock> data2 = zlib::ExpandDataList(out_data_list);
 
   result->data.resize(data2->size);
-  memcpy(&result->data[0], data2->ptr, data2->size);
+  memcpy(result->data.data(), data2->ptr, data2->size);
 
   result->width = msg.width;
   result->height = msg.height;

@@ -35,9 +35,11 @@
 #include <draco/compression/encode.h>
 #include <draco/point_cloud/point_cloud_builder.h>
 
+#include <format>
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -50,27 +52,32 @@
 namespace draco_point_cloud_transport
 {
 
+using enum draco::GeometryAttribute::Type;
+
+// Field names that carry packed RGB(A) color and therefore need the color tweak.
+static const std::unordered_set<std::string> kColorFieldNames{"rgb", "rgba"};
+
 static std::unordered_map<std::string, draco::GeometryAttribute::Type> attributeTypes = {
-  {"x", draco::GeometryAttribute::Type::POSITION},
-  {"y", draco::GeometryAttribute::Type::POSITION},
-  {"z", draco::GeometryAttribute::Type::POSITION},
-  {"pos", draco::GeometryAttribute::Type::POSITION},
-  {"position", draco::GeometryAttribute::Type::POSITION},
-  {"vp_x", draco::GeometryAttribute::Type::POSITION},
-  {"vp_y", draco::GeometryAttribute::Type::POSITION},
-  {"vp_z", draco::GeometryAttribute::Type::POSITION},
-  {"rgb", draco::GeometryAttribute::Type::COLOR},
-  {"rgba", draco::GeometryAttribute::Type::COLOR},
-  {"r", draco::GeometryAttribute::Type::COLOR},
-  {"g", draco::GeometryAttribute::Type::COLOR},
-  {"b", draco::GeometryAttribute::Type::COLOR},
-  {"a", draco::GeometryAttribute::Type::COLOR},
-  {"nx", draco::GeometryAttribute::Type::NORMAL},
-  {"ny", draco::GeometryAttribute::Type::NORMAL},
-  {"nz", draco::GeometryAttribute::Type::NORMAL},
-  {"normal_x", draco::GeometryAttribute::Type::NORMAL},
-  {"normal_y", draco::GeometryAttribute::Type::NORMAL},
-  {"normal_z", draco::GeometryAttribute::Type::NORMAL},
+  {"x", POSITION},
+  {"y", POSITION},
+  {"z", POSITION},
+  {"pos", POSITION},
+  {"position", POSITION},
+  {"vp_x", POSITION},
+  {"vp_y", POSITION},
+  {"vp_z", POSITION},
+  {"rgb", COLOR},
+  {"rgba", COLOR},
+  {"r", COLOR},
+  {"g", COLOR},
+  {"b", COLOR},
+  {"a", COLOR},
+  {"nx", NORMAL},
+  {"ny", NORMAL},
+  {"nz", NORMAL},
+  {"normal_x", NORMAL},
+  {"normal_y", NORMAL},
+  {"normal_z", NORMAL},
 };
 
 void DracoPublisher::declareParameters(const std::string & base_topic)
@@ -259,68 +266,68 @@ void DracoPublisher::declareParameters(const std::string & base_topic)
       auto result = rcl_interfaces::msg::SetParametersResult();
       result.successful = true;
       for (auto parameter : parameters) {
-        if (parameter.get_name().find("expert_quantization") != std::string::npos) {
+        if (parameter.get_name().ends_with("expert_quantization")) {
           config_.expert_quantization = parameter.as_bool();
           return result;
-        } else if (parameter.get_name().find("force_quantization") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("force_quantization")) {
           config_.force_quantization = parameter.as_bool();
           return result;
-        } else if (parameter.get_name().find("encode_speed") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("encode_speed")) {
           config_.encode_speed = static_cast<int>(parameter.as_int());
           if (!(config_.encode_speed >= 0 && config_.encode_speed <= 10)) {
             RCLCPP_ERROR_STREAM(
               getLogger(), "encode_speed value range should be between [0, 10] ");
           }
           return result;
-        } else if (parameter.get_name().find("decode_speed") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("decode_speed")) {
           config_.decode_speed = static_cast<int>(parameter.as_int());
           if (!(config_.decode_speed >= 0 && config_.decode_speed <= 10)) {
             RCLCPP_ERROR_STREAM(
               getLogger(), "decode_speed value range should be between [0, 10] ");
           }
           return result;
-        } else if (parameter.get_name().find("encode_method") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("encode_method")) {
           config_.encode_method = static_cast<int>(parameter.as_int());
           return result;
-        } else if (parameter.get_name().find("deduplicate") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("deduplicate")) {
           config_.deduplicate = parameter.as_bool();
           return result;
-        } else if (parameter.get_name().find("quantization_POSITION") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("quantization_POSITION")) {
           config_.quantization_POSITION = static_cast<int>(parameter.as_int());
           if (!(config_.quantization_POSITION >= 1 && config_.quantization_POSITION <= 31)) {
             RCLCPP_ERROR_STREAM(
               getLogger(), "quantization_POSITION value range should be between [1, 31] ");
           }
           return result;
-        } else if (parameter.get_name().find("quantization_NORMAL") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("quantization_NORMAL")) {
           config_.quantization_NORMAL = static_cast<int>(parameter.as_int());
           if (!(config_.quantization_NORMAL >= 1 && config_.quantization_NORMAL <= 31)) {
             RCLCPP_ERROR_STREAM(
               getLogger(), "quantization_NORMAL value range should be between [1, 31] ");
           }
           return result;
-        } else if (parameter.get_name().find("quantization_COLOR") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("quantization_COLOR")) {
           config_.quantization_COLOR = static_cast<int>(parameter.as_int());
           if (!(config_.quantization_COLOR >= 1 && config_.quantization_COLOR <= 31)) {
             RCLCPP_ERROR_STREAM(
               getLogger(), "quantization_COLOR value range should be between [1, 31] ");
           }
           return result;
-        } else if (parameter.get_name().find("quantization_TEX_COORD") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("quantization_TEX_COORD")) {
           config_.quantization_TEX_COORD = static_cast<int>(parameter.as_int());
           if (!(config_.quantization_TEX_COORD >= 1 && config_.quantization_TEX_COORD <= 31)) {
             RCLCPP_ERROR_STREAM(
               getLogger(), "quantization_TEX_COORD value range should be between [1, 31] ");
           }
           return result;
-        } else if (parameter.get_name().find("quantization_GENERIC") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("quantization_GENERIC")) {
           config_.quantization_GENERIC = static_cast<int>(parameter.as_int());
           if (!(config_.quantization_GENERIC >= 1 && config_.quantization_GENERIC <= 31)) {
             RCLCPP_ERROR_STREAM(
               getLogger(), "quantization_GENERIC value range should be between [1, 31] ");
           }
           return result;
-        } else if (parameter.get_name().find("expert_attribute_types") != std::string::npos) {
+        } else if (parameter.get_name().ends_with("expert_attribute_types")) {
           config_.expert_attribute_types = parameter.as_bool();
           return result;
         }
@@ -394,7 +401,7 @@ tl::expected<std::unique_ptr<draco::PointCloud>, std::string> DracoPublisher::co
 
     // find attribute type in recognized names
     if ((!expert_encoding) || (!expert_settings_ok)) {
-      rgba_tweak = field.name == "rgb" || field.name == "rgba";
+      rgba_tweak = kColorFieldNames.contains(field.name);
       attribute_type = draco::GeometryAttribute::GENERIC;
       const auto & it = attributeTypes.find(field.name);
       if (it != attributeTypes.end()) {
@@ -445,7 +452,7 @@ tl::expected<std::unique_ptr<draco::PointCloud>, std::string> DracoPublisher::co
     // Set attribute values for the last added attribute
     if ((!att_ids.empty()) && (attribute_data_type != draco::DT_INVALID)) {
       builder.SetAttributeValuesForAllPoints(
-        static_cast<int>(att_ids.back()), &PC2.data[0] + field.offset, PC2.point_step);
+        static_cast<int>(att_ids.back()), PC2.data.data() + field.offset, PC2.point_step);
     }
   }
   // finalize point cloud *** builder.Finalize(bool deduplicate) ***
@@ -560,8 +567,9 @@ DracoPublisher::TypedEncodeResult DracoPublisher::encodeTyped(
     if (status.code() != 0) {
       // TODO(anyone): Fix with proper format
       return tl::make_unexpected(
-        "Draco encoder returned code " + std::to_string(
-          status.code()) + ": " + status.error_msg() + ".");
+        std::format(
+          "Draco encoder returned code {}: {}.",
+          static_cast<int>(status.code()), status.error_msg()));
     }
   }
   // expert encoder end
@@ -603,16 +611,16 @@ DracoPublisher::TypedEncodeResult DracoPublisher::encodeTyped(
 
     if (!status.ok()) {
       return tl::make_unexpected(
-        "Draco encoder returned code " + std::to_string(
-          status.code()) + ": " + status.error_msg() + ".");
+        std::format(
+          "Draco encoder returned code {}: {}.",
+          static_cast<int>(status.code()), status.error_msg()));
     }
   }
   // regular encoder end
 
   uint32_t compressed_data_size = static_cast<uint32_t>(encode_buffer.size());
   auto cast_buffer = reinterpret_cast<const unsigned char *>(encode_buffer.data());
-  std::vector<unsigned char> vec_data(cast_buffer, cast_buffer + compressed_data_size);
-  compressed.compressed_data = vec_data;
+  compressed.compressed_data.assign(cast_buffer, cast_buffer + compressed_data_size);
   compressed.format = getTransportName();
 
   return compressed;
@@ -620,17 +628,17 @@ DracoPublisher::TypedEncodeResult DracoPublisher::encodeTyped(
 
 void DracoPublisher::registerPositionField(const std::string & field)
 {
-  attributeTypes[field] = draco::GeometryAttribute::Type::POSITION;
+  attributeTypes[field] = POSITION;
 }
 
 void DracoPublisher::registerColorField(const std::string & field)
 {
-  attributeTypes[field] = draco::GeometryAttribute::Type::COLOR;
+  attributeTypes[field] = COLOR;
 }
 
 void DracoPublisher::registerNormalField(const std::string & field)
 {
-  attributeTypes[field] = draco::GeometryAttribute::Type::NORMAL;
+  attributeTypes[field] = NORMAL;
 }
 
 }  // namespace draco_point_cloud_transport

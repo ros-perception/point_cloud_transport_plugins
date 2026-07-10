@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 
-set(CMAKE_CXX_STANDARD 17)
-
 project(zlib_point_cloud_transport)
 
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_ros_core REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(point_cloud_interfaces REQUIRED)
 find_package(point_cloud_transport REQUIRED)
@@ -27,6 +26,7 @@ add_library(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+  ament_cmake_ros_core::ament_ros_cxx_standard
   pluginlib::pluginlib
   ${point_cloud_interfaces_TARGETS}
   point_cloud_transport::point_cloud_transport
@@ -64,6 +64,23 @@ if(BUILD_TESTING)
   target_include_directories(test_zlib_roundtrip PRIVATE src)
   target_link_libraries(test_zlib_roundtrip
     ament_cmake_ros_core::ament_ros_cxx_standard
+    ZLIB::ZLIB
+  )
+
+  find_package(sensor_msgs REQUIRED)
+  ament_add_gtest(test_zlib_plugin_roundtrip
+    test/test_zlib_plugin_roundtrip.cpp
+    src/zlib_publisher.cpp
+    src/zlib_subscriber.cpp
+    src/zlib_cpp.cpp
+  )
+  target_include_directories(test_zlib_plugin_roundtrip PRIVATE include src)
+  target_link_libraries(test_zlib_plugin_roundtrip
+    pluginlib::pluginlib
+    ${point_cloud_interfaces_TARGETS}
+    point_cloud_transport::point_cloud_transport
+    rclcpp::rclcpp
+    ${sensor_msgs_TARGETS}
     ZLIB::ZLIB
   )
 endif()

@@ -34,6 +34,7 @@
 
 #include <zstd.h>
 
+#include <memory>
 #include <string>
 
 #include <point_cloud_interfaces/msg/compressed_point_cloud2.hpp>
@@ -49,8 +50,6 @@ class ZstdSubscriber
     point_cloud_interfaces::msg::CompressedPointCloud2>
 {
 public:
-  ZstdSubscriber();
-
   void declareParameters() override;
 
   std::string getDataType() const override;
@@ -59,7 +58,13 @@ public:
   const override;
 
 private:
-  ZSTD_DCtx * zstd_context_{nullptr};
+  // Custom deleter so the ZSTD decompression context is released via RAII.
+  struct DCtxDeleter
+  {
+    void operator()(ZSTD_DCtx * ctx) const noexcept {ZSTD_freeDCtx(ctx);}
+  };
+
+  std::unique_ptr<ZSTD_DCtx, DCtxDeleter> zstd_context_{ZSTD_createDCtx()};
 };
 }  // namespace zstd_point_cloud_transport
 

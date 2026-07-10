@@ -65,7 +65,7 @@ void ZlibPublisher::declareParameters(const std::string & base_topic)
       auto result = rcl_interfaces::msg::SetParametersResult();
       result.successful = true;
       for (auto parameter : parameters) {
-        if (parameter.get_name().find("encode_level") != std::string::npos) {
+        if (parameter.get_name().ends_with("encode_level")) {
           this->encode_level_ = static_cast<int>(parameter.as_int());
           if (!(this->encode_level_ >= -1 && this->encode_level_ <= 9)) {
             RCLCPP_ERROR_STREAM(
@@ -83,8 +83,12 @@ ZlibPublisher::TypedEncodeResult ZlibPublisher::encodeTyped(
   const sensor_msgs::msg::PointCloud2 & raw) const
 {
   zlib::Comp comp(static_cast<zlib::Comp::Level>(this->encode_level_), true);
+  if (!comp.IsSucc()) {
+    return tl::make_unexpected("Zlib compressor failed to initialize.");
+  }
+
   auto g_compressed_data =
-    comp.Process(&raw.data[0], raw.data.size(), true);
+    comp.Process(raw.data.data(), raw.data.size(), true);
 
   point_cloud_interfaces::msg::CompressedPointCloud2 compressed;
 
@@ -97,7 +101,7 @@ ZlibPublisher::TypedEncodeResult ZlibPublisher::encodeTyped(
 
   size_t index = 0;
   for (const auto & data : g_compressed_data) {
-    memcpy(&compressed.compressed_data[index], data->ptr, data->size);
+    memcpy(compressed.compressed_data.data() + index, data->ptr, data->size);
     index += data->size;
   }
 
