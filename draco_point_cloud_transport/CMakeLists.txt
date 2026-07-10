@@ -107,6 +107,15 @@ if(BUILD_TESTING)
   else()
     target_link_libraries(test_draco_roundtrip draco::draco)
   endif()
+
+  # Integration test: drives the full point_cloud_transport pub/sub path. The
+  # draco plugin is loaded at runtime via pluginlib, so it is NOT linked here.
+  ament_add_gtest(test_draco_transport test/test_draco_transport.cpp)
+  target_link_libraries(test_draco_transport
+    point_cloud_transport::point_cloud_transport
+    rclcpp::rclcpp
+    ${sensor_msgs_TARGETS}
+  )
 endif()
 
 ament_export_include_directories(include)
