@@ -452,7 +452,7 @@ tl::expected<std::unique_ptr<draco::PointCloud>, std::string> DracoPublisher::co
     // Set attribute values for the last added attribute
     if ((!att_ids.empty()) && (attribute_data_type != draco::DT_INVALID)) {
       builder.SetAttributeValuesForAllPoints(
-        static_cast<int>(att_ids.back()), &PC2.data[0] + field.offset, PC2.point_step);
+        static_cast<int>(att_ids.back()), PC2.data.data() + field.offset, PC2.point_step);
     }
   }
   // finalize point cloud *** builder.Finalize(bool deduplicate) ***
@@ -620,8 +620,7 @@ DracoPublisher::TypedEncodeResult DracoPublisher::encodeTyped(
 
   uint32_t compressed_data_size = static_cast<uint32_t>(encode_buffer.size());
   auto cast_buffer = reinterpret_cast<const unsigned char *>(encode_buffer.data());
-  std::vector<unsigned char> vec_data(cast_buffer, cast_buffer + compressed_data_size);
-  compressed.compressed_data = vec_data;
+  compressed.compressed_data.assign(cast_buffer, cast_buffer + compressed_data_size);
   compressed.format = getTransportName();
 
   return compressed;

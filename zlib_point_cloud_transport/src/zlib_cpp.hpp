@@ -99,6 +99,9 @@ public:
   /// Destructor, will release z_stream.
   ~Decomp();
 
+  /// Returns true if decompressor initialize successfully.
+  bool IsSucc() const;
+
   /// Decompress incoming buffer to DataBlock list.
   std::list<std::shared_ptr<DataBlock>> Process(
     const std::shared_ptr<DataBlock> & compressed_data);
