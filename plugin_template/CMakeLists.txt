@@ -3,11 +3,10 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-set(CMAKE_CXX_STANDARD 17)
-
 project(template_point_cloud_transport)
 
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_ros_core REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(point_cloud_interfaces REQUIRED)
 find_package(point_cloud_transport REQUIRED)
@@ -34,6 +33,7 @@ add_library(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+  ament_cmake_ros_core::ament_ros_cxx_standard
   pluginlib::pluginlib
   ${point_cloud_interfaces_TARGETS}
   point_cloud_transport::point_cloud_transport

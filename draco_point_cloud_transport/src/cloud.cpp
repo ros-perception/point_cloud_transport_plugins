@@ -31,6 +31,7 @@
 
 // HACK: we need to access PointCloud2IteratorBase::data_char_ which is private
 #include <algorithm>
+#include <format>  // NOLINT(build/include_order)
 #include <string>
 #include <sstream>
 #include <cstring>
@@ -59,7 +60,7 @@ sensor_msgs::msg::PointField & getField(::cras::Cloud & cloud, const std::string
       return field;
     }
   }
-  throw std::runtime_error(std::string("Field ") + fieldName + " does not exist.");
+  throw std::runtime_error(std::format("Field {} does not exist.", fieldName));
 }
 
 const sensor_msgs::msg::PointField & getField(
@@ -71,7 +72,7 @@ const sensor_msgs::msg::PointField & getField(
       return field;
     }
   }
-  throw std::runtime_error(std::string("Field ") + fieldName + " does not exist.");
+  throw std::runtime_error(std::format("Field {} does not exist.", fieldName));
 }
 
 size_t sizeOfPointField(const ::sensor_msgs::msg::PointField & field)
@@ -98,8 +99,7 @@ size_t sizeOfPointField(int datatype)
     return 8u;
   } else {
     throw std::runtime_error(
-            std::string("PointField of type ") + std::to_string(
-              datatype) + " does not exist");
+            std::format("PointField of type {} does not exist", datatype));
   }
 }
 

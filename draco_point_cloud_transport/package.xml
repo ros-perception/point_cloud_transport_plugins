@@ -14,6 +14,7 @@
   <url type="bugtracker">https://github.com/ctu-vras/draco_point_cloud_transport/issues</url>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros_core</buildtool_depend>
 
   <build_depend>libdraco-dev</build_depend>
   <build_depend>pluginlib</build_depend>
