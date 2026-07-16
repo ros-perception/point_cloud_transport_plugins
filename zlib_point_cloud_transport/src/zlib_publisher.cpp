@@ -90,15 +90,15 @@ ZlibPublisher::TypedEncodeResult ZlibPublisher::encodeTyped(
 
   size_t total_size = 0;
   for (const auto & data : g_compressed_data) {
-    total_size += data->size;
+    total_size += data->size();
   }
 
   compressed.compressed_data.resize(total_size);
 
   size_t index = 0;
   for (const auto & data : g_compressed_data) {
-    memcpy(&compressed.compressed_data[index], data->ptr, data->size);
-    index += data->size;
+    memcpy(&compressed.compressed_data[index], data->ptr(), data->size());
+    index += data->size();
   }
 
   compressed.width = raw.width;

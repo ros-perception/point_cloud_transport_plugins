@@ -37,14 +37,25 @@
 #include <list>
 #include <memory>
 #include <tuple>
+#include <vector>
 
 namespace zlib
 {
 
 struct DataBlock
 {
-  uint8_t * ptr;
-  std::size_t size;
+  //! Owned byte buffer; freed automatically with the DataBlock.
+  std::vector<uint8_t> data;
+
+  explicit DataBlock(std::size_t size)
+  : data(size) {}
+
+  //! Pointer to the owned byte buffer.
+  [[nodiscard]] uint8_t * ptr() noexcept {return data.data();}
+  [[nodiscard]] const uint8_t * ptr() const noexcept {return data.data();}
+
+  //! Number of bytes in the buffer.
+  [[nodiscard]] std::size_t size() const noexcept {return data.size();}
 };
 
 std::shared_ptr<DataBlock> AllocateData(std::size_t size);

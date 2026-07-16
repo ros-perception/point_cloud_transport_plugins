@@ -58,7 +58,7 @@ std::vector<uint8_t> compress(const std::vector<uint8_t> & in)
   const auto chunks = comp.Process(in.data(), in.size(), true);
   std::vector<uint8_t> out;
   for (const auto & chunk : chunks) {
-    out.insert(out.end(), chunk->ptr, chunk->ptr + chunk->size);
+    out.insert(out.end(), chunk->ptr(), chunk->ptr() + chunk->size());
   }
   return out;
 }
@@ -68,10 +68,10 @@ std::vector<uint8_t> decompress(const std::vector<uint8_t> & in)
 {
   zlib::Decomp decomp;
   auto block = zlib::AllocateData(in.size());
-  std::memcpy(block->ptr, in.data(), in.size());
+  std::memcpy(block->ptr(), in.data(), in.size());
   const auto chunks = decomp.Process(block);
   const auto expanded = zlib::ExpandDataList(chunks);
-  return std::vector<uint8_t>(expanded->ptr, expanded->ptr + expanded->size);
+  return std::vector<uint8_t>(expanded->ptr(), expanded->ptr() + expanded->size());
 }
 
 }  // namespace
